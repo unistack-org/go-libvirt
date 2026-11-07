@@ -370,8 +370,28 @@ func (enc *Encoder) EncodeString(v string) (int, error) {
 // 	RFC Section 4.12 - Fixed-Length Array
 // 	Individually XDR encoded array elements
 func (enc *Encoder) encodeFixedArray(v reflect.Value, ignoreOpaque bool) (int, error) {
-	// Treat [#]byte (byte is alias for uint8) as opaque data unless ignored.
-	if !ignoreOpaque && v.Type().Elem().Kind() == reflect.Uint8 {
+	// Treat [#]byte (byte is alias for uint8) as opaque data unless
+	// ignored. The libvirt XDR generator maps `opaque` and
+	// `unsigned char[]` fields to int8 slices/arrays (remote_protocol:
+	// SASL Data, NodeGetInfo Model); libvirt encodes those as packed
+	// opaque bytes, so int8 element types must follow the same opaque
+	// path as uint8 - encoding each int8 as a 4-byte integer (the
+	// generic path below) is not wire-compatible with real libvirt.
+	switch v.Type().Elem().Kind() {
+	case reflect.Int8:
+		if ignoreOpaque {
+			break
+		}
+		// int8 arrays have no []byte view; copy element-wise.
+		int8Slice := make([]byte, v.Len())
+		for i := 0; i < v.Len(); i++ {
+			int8Slice[i] = byte(v.Index(i).Int())
+		}
+		return enc.EncodeFixedOpaque(int8Slice)
+	case reflect.Uint8:
+		if ignoreOpaque {
+			break
+		}
 		// Create a slice of the underlying array for better efficiency
 		// when possible.  Can't create a slice of an unaddressable
 		// value.

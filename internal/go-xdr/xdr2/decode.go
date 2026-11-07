@@ -422,8 +422,21 @@ func (d *Decoder) DecodeString() (string, int, error) {
 // 	Individually XDR encoded array elements
 func (d *Decoder) decodeFixedArray(v reflect.Value, ignoreOpaque bool) (int, error) {
 	// Treat [#]byte (byte is alias for uint8) as opaque data unless
-	// ignored.
-	if !ignoreOpaque && v.Type().Elem().Kind() == reflect.Uint8 {
+	// ignored. The libvirt XDR generator maps `opaque` and
+	// `unsigned char[]` fields to int8 slices/arrays, and libvirt
+	// encodes those as packed opaque bytes, so int8 element types use
+	// the same path (see the matching note in encode.go).
+	switch {
+	case !ignoreOpaque && v.Type().Elem().Kind() == reflect.Int8:
+		data, n, err := d.DecodeFixedOpaque(int32(v.Len()))
+		if err != nil {
+			return n, err
+		}
+		for i := range data {
+			v.Index(i).SetInt(int64(int8(data[i])))
+		}
+		return n, nil
+	case !ignoreOpaque && v.Type().Elem().Kind() == reflect.Uint8:
 		data, n, err := d.DecodeFixedOpaque(int32(v.Len()))
 		if err != nil {
 			return n, err
@@ -482,6 +495,18 @@ func (d *Decoder) decodeArray(v reflect.Value, ignoreOpaque bool) (int, error) {
 	}
 
 	// Treat []byte (byte is alias for uint8) as opaque data unless ignored.
+	// []int8 follows the same path (libvirt opaque fields; see encode.go).
+	if !ignoreOpaque && v.Type().Elem().Kind() == reflect.Int8 {
+		data, n2, err := d.DecodeFixedOpaque(int32(sliceLen))
+		n += n2
+		if err != nil {
+			return n, err
+		}
+		for i := range data {
+			v.Index(i).SetInt(int64(int8(data[i])))
+		}
+		return n, nil
+	}
 	if !ignoreOpaque && v.Type().Elem().Kind() == reflect.Uint8 {
 		data, n2, err := d.DecodeFixedOpaque(int32(sliceLen))
 		n += n2
