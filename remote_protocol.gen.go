@@ -24,8 +24,8 @@ import (
 	"bytes"
 	"io"
 
-	"github.com/digitalocean/go-libvirt/internal/constants"
-	"github.com/digitalocean/go-libvirt/internal/go-xdr/xdr2"
+	"github.com/unistack-org/go-libvirt/internal/constants"
+	"github.com/unistack-org/go-libvirt/internal/go-xdr/xdr2"
 )
 
 // References to prevent "imported and not used" errors.

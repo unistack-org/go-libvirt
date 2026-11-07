@@ -23,10 +23,10 @@ import (
 	"strings"
 	"sync/atomic"
 
-	"github.com/digitalocean/go-libvirt/internal/constants"
-	"github.com/digitalocean/go-libvirt/internal/event"
-	xdr "github.com/digitalocean/go-libvirt/internal/go-xdr/xdr2"
-	"github.com/digitalocean/go-libvirt/socket"
+	"github.com/unistack-org/go-libvirt/internal/constants"
+	"github.com/unistack-org/go-libvirt/internal/event"
+	xdr "github.com/unistack-org/go-libvirt/internal/go-xdr/xdr2"
+	"github.com/unistack-org/go-libvirt/socket"
 )
 
 // ErrUnsupported is returned if a procedure is not supported by libvirt

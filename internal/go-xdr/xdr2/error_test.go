@@ -20,7 +20,7 @@ import (
 	"errors"
 	"testing"
 
-	. "github.com/digitalocean/go-libvirt/internal/go-xdr/xdr2"
+	. "github.com/unistack-org/go-libvirt/internal/go-xdr/xdr2"
 )
 
 // TestErrorCodeStringer tests the stringized output for the ErrorCode type.

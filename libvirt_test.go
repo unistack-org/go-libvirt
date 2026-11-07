@@ -22,7 +22,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/digitalocean/go-libvirt/libvirttest"
+	"github.com/unistack-org/go-libvirt/libvirttest"
 )
 
 func TestDeprecatedConnectAndDisconnect(t *testing.T) {

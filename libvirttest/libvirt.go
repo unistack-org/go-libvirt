@@ -25,7 +25,7 @@ import (
 	"os"
 	"sync/atomic"
 
-	"github.com/digitalocean/go-libvirt/internal/constants"
+	"github.com/unistack-org/go-libvirt/internal/constants"
 )
 
 var testDomainResponse = []byte{

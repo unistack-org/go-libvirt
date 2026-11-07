@@ -23,7 +23,7 @@ import (
 	"testing"
 	"time"
 
-	. "github.com/digitalocean/go-libvirt/internal/go-xdr/xdr2"
+	. "github.com/unistack-org/go-libvirt/internal/go-xdr/xdr2"
 )
 
 // testExpectedMRet is a convenience method to test an expected number of bytes

@@ -178,7 +178,7 @@ func (r *TLS) Dial() (net.Conn, error) {
 	// When running over TLS, after connection libvirt writes a single byte to
 	// the socket to indicate whether the server's check of the client's
 	// certificate has succeeded.
-	// See https://github.com/digitalocean/go-libvirt/issues/89#issuecomment-1607300636
+	// See https://github.com/unistack-org/go-libvirt/issues/89#issuecomment-1607300636
 	// for more details.
 	buf := make([]byte, 1)
 	if n, err := c.Read(buf); err != nil {

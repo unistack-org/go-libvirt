@@ -21,7 +21,7 @@ import (
 	"testing"
 	"unsafe"
 
-	"github.com/digitalocean/go-libvirt/internal/go-xdr/xdr2"
+	"github.com/unistack-org/go-libvirt/internal/go-xdr/xdr2"
 )
 
 // BenchmarkUnmarshal benchmarks the Unmarshal function by using a dummy

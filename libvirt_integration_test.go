@@ -25,8 +25,8 @@ import (
 	"testing"
 	"time"
 
-	"github.com/digitalocean/go-libvirt/socket"
-	"github.com/digitalocean/go-libvirt/socket/dialers"
+	"github.com/unistack-org/go-libvirt/socket"
+	"github.com/unistack-org/go-libvirt/socket/dialers"
 )
 
 // In order for this test to work, libvirtd must be running and listening for
@@ -440,7 +440,7 @@ func TestVolumeUploadDownloadIntegration(t *testing.T) {
 }
 
 // verify we're able to concurrently communicate with libvirtd.
-// see: https://github.com/digitalocean/go-libvirt/pull/52
+// see: https://github.com/unistack-org/go-libvirt/pull/52
 func Test_concurrentWrite(t *testing.T) {
 	l := NewWithDialer(testDialer(t))
 
