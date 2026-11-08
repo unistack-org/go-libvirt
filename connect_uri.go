@@ -215,3 +215,5 @@ func processCommonSSHOptions(uri *url.URL, options []dialers.SSHOption) ([]diale
 	}
 	return options, nil
 }
+
+// ai-review smoke marker (go-libvirt fork)
